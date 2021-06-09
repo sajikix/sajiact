@@ -1,0 +1,17 @@
+{
+  "name": "sajiact",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/saji-ryu/sajiact.git",
+  "author": "saji-ryu <rsajiki@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "bootstrap": "lerna bootstrap"
+  },
+  "dependencies": {
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.2"
+  }
+}
