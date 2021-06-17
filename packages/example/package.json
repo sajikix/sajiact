@@ -4,14 +4,21 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "upbin tsc --project ./tsconfig.json"
+    "test": "ts-node src/index.ts",
+    "build": "webpack",
+    "dev": "webpack serve"
   },
   "dependencies": {
     "sajiact-core": "*"
   },
   "devDependencies": {
-    "upbin": "^0.9.2"
+    "html-webpack-plugin": "^4.5.0",
+    "upbin": "^0.9.2",
+    "ts-node": "^10.0.0",
+    "ts-loader": "^8.0.8",
+    "webpack": "^5.39.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "author": "",
   "license": "MIT"
