@@ -38,7 +38,7 @@ export const diff = ({
       // 新しいProps
       const newProps = newVNode.props;
       //
-      let newComponent, isNew: boolean, oldProps, oldState;
+      let newComponent, isNew: boolean, oldProps;
       // diffをとるのがcomponentの時
       // すでに以前のcomponentがある時 = setStateの時とか
       if ('_component' in oldVNode && oldVNode._component) {
