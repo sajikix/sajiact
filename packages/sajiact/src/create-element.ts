@@ -1,16 +1,22 @@
-import { ComponentChildren, Key, PropsType, VNode } from './interface';
+import {
+  ComponentChildren,
+  FragmentType,
+  Key,
+  PropsType,
+  VNode,
+} from './interface';
 
 export function createElement(
-  type: VNode['type'],
+  type: VNode['type'] | FragmentType,
   props: PropsType,
   children: ComponentChildren
 ) {
-  let normalizedProps: { children?: ComponentChildren } = {},
-    key,
-    i;
-  for (i in props) {
-    if (i == 'key') key = props[i];
-    else normalizedProps[i] = props[i];
+  let normalizedProps: { children?: ComponentChildren } = {};
+  let key: Key;
+
+  for (const propKey in props) {
+    if (propKey == 'key') key = props[propKey];
+    else normalizedProps[propKey] = props[propKey];
   }
 
   if (arguments.length > 3) {
@@ -18,7 +24,7 @@ export function createElement(
     if (!Array.isArray(children)) {
       throw new Error();
     }
-    for (i = 3; i < arguments.length; i++) {
+    for (let i = 3; i < arguments.length; i++) {
       children.push(arguments[i]);
     }
   }
@@ -28,10 +34,17 @@ export function createElement(
 
   // If a Component VNode, check for and apply defaultProps
   // Note: type may be undefined in development, must never error here.
-  if (typeof type == 'function' && type.defaultProps != null) {
-    for (i in type.defaultProps) {
-      if (normalizedProps[i] === undefined) {
-        normalizedProps[i] = type.defaultProps[i];
+  // VNodeがconponentだったらdefaultPropsを適用
+  if (
+    typeof type == 'function' &&
+    'defaultProps' in type &&
+    type.defaultProps != null
+  ) {
+    //
+    for (let defaultPropKey in type.defaultProps) {
+      // normalizedPropsの中にdefaultPropKeyがある場合、normalizedPropsをdefaultPropで上書き
+      if (normalizedProps[defaultPropKey] === undefined) {
+        normalizedProps[defaultPropKey] = type.defaultProps[defaultPropKey];
       }
     }
   }
@@ -47,7 +60,7 @@ export function createElement(
 }
 
 export function createVNode(
-  type: VNode['type'],
+  type: VNode['type'] | FragmentType,
   props: VNode<PropsType>['props'] | string | number,
   key: Key,
   ref: undefined,

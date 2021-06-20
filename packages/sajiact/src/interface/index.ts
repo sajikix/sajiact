@@ -9,6 +9,8 @@ export type ComponentChild =
 
 export type ComponentChildren = ComponentChild[] | ComponentChild;
 
+export type FragmentType = (props: VNode['props']) => ComponentChildren;
+
 export interface VNode<P = {}> {
   // Redefine type here using our internal ComponentType type
   type: string | ComponentType<P>;
@@ -46,7 +48,7 @@ interface Attributes {
   jsx?: boolean;
 }
 
-type RenderableProps<P, RefType = any> = P &
+type RenderableProps<P> = P &
   Readonly<Attributes & { children?: ComponentChildren }>;
 
 export interface FunctionComponent<P = {}> {
@@ -62,7 +64,7 @@ export interface FunctionalComponent<P = {}> extends FunctionComponent<P> {
   getDerivedStateFromError?: undefined;
 }
 
-export interface ComponentClass<P = {}, S = {}> {
+export interface ClassComponent<P = {}, S = {}> {
   new (props: P, context?: any): Component<P, S>;
   displayName?: string;
   defaultProps?: Partial<P>;
@@ -74,24 +76,24 @@ export interface ComponentClass<P = {}, S = {}> {
 }
 
 export type ComponentType<P = {}, S = {}> =
-  | ComponentClass<P, S>
+  | ClassComponent<P, S>
   | FunctionalComponent<P>;
 // export type ComponentFactory<P> = ComponentClass<P> | FunctionalComponent<P>;
 
-interface Context<T> {
-  Consumer: Consumer<T>;
-  Provider: Provider<T>;
-}
-interface Consumer<T>
-  extends FunctionComponent<{
-    children: (value: T) => ComponentChildren;
-  }> {}
-interface PreactConsumer<T> extends Consumer<T> {}
-interface Provider<T>
-  extends FunctionComponent<{
-    value: T;
-    children: ComponentChildren;
-  }> {}
+// interface Context<T> {
+//   Consumer: Consumer<T>;
+//   Provider: Provider<T>;
+// }
+// interface Consumer<T>
+//   extends FunctionComponent<{
+//     children: (value: T) => ComponentChildren;
+//   }> {}
+// interface PreactConsumer<T> extends Consumer<T> {}
+// interface Provider<T>
+//   extends FunctionComponent<{
+//     value: T;
+//     children: ComponentChildren;
+//   }> {}
 
 export interface Component<P = {}, S = {}> {
   // When component is functional component, this is reset to functional component

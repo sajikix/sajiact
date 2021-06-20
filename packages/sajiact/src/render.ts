@@ -1,5 +1,5 @@
 import { EMPTY_OBJ, EMPTY_ARR } from './constants';
-import { VNode, PreactElement, ComponentClass } from './interface';
+import { VNode, PreactElement } from './interface';
 import { createElement, Fragment } from './create-element';
 import { commitRoot, diff } from './diff/index';
 
@@ -12,9 +12,11 @@ export const render = (vnode: VNode, parentDom: PreactElement) => {
   //  typeはFragment
   //  Propsなし
   //  childrenは渡されたvnode
-  const newVNode = createElement(Fragment as any as ComponentClass, null, [
-    vnode,
-  ]);
+  // const newVNode = createElement(Fragment as any as ComponentClass, null, [
+  //   vnode,
+  // ]);
+  const newVNode = createElement(Fragment, null, [vnode]);
+  // 引数はstring | ComponentType
   console.log('render:newVNode', newVNode);
 
   // parentDomの._childrenにnewVNodeを入れる
