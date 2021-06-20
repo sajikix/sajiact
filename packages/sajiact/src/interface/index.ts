@@ -126,7 +126,7 @@ export interface Component<P = {}, S = {}> {
 export interface ElementHTML extends HTMLElement {
   _children?: VNode<any> | null;
   /** Event listeners to support event delegation */
-  _listeners: Record<string, (e: Event) => void>;
+  _listeners?: Record<string, (e: Event) => void>;
 
   // Preact uses this attribute to detect SVG nodes
   ownerSVGElement?: SVGElement | null;
@@ -138,7 +138,7 @@ export interface ElementHTML extends HTMLElement {
 interface ElementText extends Text {
   _children?: VNode<any> | null;
   /** Event listeners to support event delegation */
-  _listeners: Record<string, (e: Event) => void>;
+  _listeners?: Record<string, (e: Event) => void>;
 
   // Preact uses this attribute to detect SVG nodes
   ownerSVGElement?: SVGElement | null;

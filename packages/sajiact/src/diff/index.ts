@@ -90,6 +90,7 @@ export const diff = ({
         // 新しくComponentが生成されてない場合
         if (
           // getDerivedStateFromPropsがある場合はcomponentWillReceivePropsが走る前にreRenderされる可能性あり
+          'getDerivedStateFromProps' in newVNodeType &&
           newVNodeType.getDerivedStateFromProps === null &&
           // Propsが違う時のみcomponentWillReceivePropsを行う
           newProps !== oldProps &&
@@ -231,12 +232,13 @@ const diffElementNodes = ({
       return document.createTextNode(newProps);
     }
 
-    // @ts-ignore _listenerがないと怒られる
     // ここでcreateElementしている
     dom = document.createElement(
       // @ts-ignore We know `newVNode.type` is a string
       newVNodeType,
-      newProps.is && newProps
+      typeof newProps === 'object' && 'is' in newProps && newProps.is
+        ? newProps
+        : undefined
     );
 
     // TODO
@@ -259,9 +261,11 @@ const diffElementNodes = ({
     const props: Partial<VNode<PropsType>['props']> = oldProps;
 
     // VNodeのpropsの差分を取り、domを破壊的に変更
+    // @ts-ignore
     diffProps(dom, newProps, props);
 
     // VNode の children に diff を取るためにchildrenを抽出
+    // @ts-ignore
     const propsChildren = newVNode.props.children;
 
     // newVNodeがComponentの入れ子でなくてもプリミティブなElementの入れ子の可能性があるので、childrenの比較も行う
