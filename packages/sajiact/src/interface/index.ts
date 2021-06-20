@@ -12,9 +12,11 @@ export type ComponentChildren = ComponentChild[] | ComponentChild;
 export type FragmentType = (props: VNode['props']) => ComponentChildren;
 
 export interface VNode<P = {}> {
+  key: Key;
   // Redefine type here using our internal ComponentType type
-  type: string | ComponentType<P>;
-  props: P & { children: ComponentChildren };
+  // type: string | ComponentType<P>;
+  type: string | ComponentType<P> | FragmentType;
+  props: (P & { children?: ComponentChildren }) | string | number;
   _children: Array<VNode<any>> | null;
   _parent: VNode | null;
   _depth: number | null;

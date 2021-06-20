@@ -32,9 +32,7 @@ export function createElement(
     normalizedProps.children = children;
   }
 
-  // If a Component VNode, check for and apply defaultProps
-  // Note: type may be undefined in development, must never error here.
-  // VNodeがconponentだったらdefaultPropsを適用
+  // VNodeがconponentだったらdefaultPropsを確認
   if (
     typeof type == 'function' &&
     'defaultProps' in type &&
@@ -50,38 +48,25 @@ export function createElement(
   }
 
   // key がなければ undefined のまま入る
-  return createVNode(
-    type,
-    normalizedProps as { children: ComponentChildren },
-    key,
-    undefined,
-    null
-  );
+  return createVNode(type, normalizedProps, key, undefined);
 }
 
 export function createVNode(
   type: VNode['type'] | FragmentType,
   props: VNode<PropsType>['props'] | string | number,
   key: Key,
-  ref: undefined,
   original: VNode | null | string | number
 ) {
   // V8 seems to be better at detecting type shapes if the object is allocated from the same call site
   // Do not inline into createElement and coerceToVNode!
   const vnode: VNode<PropsType> = {
     type,
-    //@ts-ignore TODO:
     props,
     key,
-    ref,
     _children: null,
     _parent: null,
     _depth: 0,
     _dom: null,
-    // _nextDom must be initialized to undefined b/c it will eventually
-    // be set to dom.nextSibling which can return `null` and it is important
-    // to be able to distinguish between an uninitialized _nextDom and
-    // a _nextDom that has been set to `null`
     _nextDom: undefined,
     _component: null,
     _hydrating: null,
@@ -89,11 +74,14 @@ export function createVNode(
     _original: original,
   };
 
+  console.log('createVNode:VNode', vnode);
+
   if (original == null) vnode._original = vnode;
 
   return vnode;
 }
 
 export function Fragment(props: VNode['props']) {
-  return props.children;
+  if (typeof props === 'object' && 'children' in props) return props.children;
+  return null;
 }

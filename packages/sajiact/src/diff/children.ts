@@ -72,7 +72,6 @@ export const diffChildren = ({
         null,
         childVNode,
         null,
-        null,
         childVNode
       );
     } else if (Array.isArray(childVNode)) {
@@ -80,10 +79,8 @@ export const diffChildren = ({
       // → JSXの中に{[1, <div>hoge</div>]}などを入れてる時
       // FragmentとしてcreateVnodeする
       childVNode = newParentVNode._children[i] = createVNode(
-        //@ts-ignore TODO:
         Fragment,
         { children: childVNode },
-        null,
         null,
         null
       );
@@ -93,7 +90,6 @@ export const diffChildren = ({
         childVNode.type,
         childVNode.props,
         childVNode.key,
-        null,
         childVNode._original
       );
     } else {

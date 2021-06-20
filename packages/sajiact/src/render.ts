@@ -4,6 +4,8 @@ import { createElement, Fragment } from './create-element';
 import { commitRoot, diff } from './diff/index';
 
 export const render = (vnode: VNode, parentDom: PreactElement) => {
+  console.log('render:start');
+
   // parentDomの_childrenがいれば記録する
   const oldVNode = parentDom._children;
   console.log('render:oldVNode', oldVNode);
@@ -15,6 +17,7 @@ export const render = (vnode: VNode, parentDom: PreactElement) => {
   // const newVNode = createElement(Fragment as any as ComponentClass, null, [
   //   vnode,
   // ]);
+
   const newVNode = createElement(Fragment, null, [vnode]);
   // 引数はstring | ComponentType
   console.log('render:newVNode', newVNode);
